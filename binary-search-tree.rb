@@ -50,22 +50,44 @@ class Tree
       return node
 
     elsif value > node.data
-      delete(node.right, value)
+      if value == node.right.data 
+        case
+        when node.right.right == nil && node.right.left == nil
+          node.right = nil 
+        # when node.right != nil && node.left == nil
+        #    node = node.right 
+        # when node.right == nil && node.left != nil
+        #    node = node.left
+        end
+      else
+        delete(node.right, value)
+      end
 
     elsif value < node.data
-      delete(node.left, value)
-
-    else
-      case
-      when node.right == nil && node.left == nil
-        return node = nil
-      when node.right != nil && node.left == nil
-        return node = node.right 
-      when node.right == nil && node.left != nil
-        return node = node.left
-      when node.right != nil && node.left != nil
-
+      if value == node.left.data 
+         node.left.data
+          case
+          when node.left.right == nil && node.left.left == nil
+             node.left = nil
+          # when node.right != nil && node.left == nil
+          #    node = node.right 
+          # when node.right == nil && node.left != nil
+          #    node = node.left
+          end
+      else
+        delete(node.left, value)
       end
+    # else
+    #   case
+    #   when node.right == nil && node.left == nil
+    #     node = nil
+    #   when node.right != nil && node.left == nil
+    #      node = node.right 
+    #   when node.right == nil && node.left != nil
+    #      node = node.left
+    #   # when node.right != nil && node.left != nil
+    #   end
+    #   node 
     end
   end
 
@@ -123,5 +145,8 @@ end
 array_data = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 
 data_tree = Tree.new(array_data)
-p data_tree.insert(11)
-data_tree
+data_tree.insert(11)
+p data_tree
+data_tree.delete(11)
+p data_tree
+
