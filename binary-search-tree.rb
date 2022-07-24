@@ -1,17 +1,17 @@
 class Node
   include Comparable
-  attr_accessor :left_child, :right_child, :data
+  attr_accessor :left, :right, :data
 
   def initialize(data)
     @data = data
-    @left_child = left_child
-    @right_child = right_child
+    @left = nil
+    @right = nil
   end
 
 end
 
 class Tree
-  attr_reader :root
+  attr_accessor :root
 
   def initialize(array)
     sorted = bubble_sort(array.uniq)
@@ -27,35 +27,46 @@ class Tree
       mid = (first + last) / 2
       root = Node.new(array[mid])
 
-      root.left_child = build_tree(array, first, mid - 1)
-      root.right_child = build_tree(array, mid + 1, last)
+      root.left = build_tree(array, first, mid - 1)
+      root.right = build_tree(array, mid + 1, last)
 
       return root
   end
 
   def insert(root = @root, value)
-    if root == nil || root == value
+    if root == value || root == nil
       return root
     elsif 
       value > root.data
-      if root.right_child == nil
-        root.right_child = Node.new(value)
-      else
-        root = root.right_child
-        insert(root, value)
-      end
+        root.right ? insert(root.right, value) : root.right = Node.new(value)
+
     elsif value < root.data
-      if root.left_child == nil
-        root.left_child = Node.new(value)
-      else
-      root = root.left_child
-      insert(root, value)
-      end
+        root.left ? insert(root.left, value) : root.left = Node.new(value)
     end
   end
 
-  def delete(value)
+  def delete(node = @root, value)
+    if node == nil
+      return node
 
+    elsif value > node.data
+      delete(node.right, value)
+
+    elsif value < node.data
+      delete(node.left, value)
+
+    else
+      case
+      when node.right == nil && node.left == nil
+        return node = nil
+      when node.right != nil && node.left == nil
+        return node = node.right 
+      when node.right == nil && node.left != nil
+        return node = node.left
+      when node.right != nil && node.left != nil
+
+      end
+    end
   end
 
   def find(value)
@@ -107,11 +118,10 @@ class Tree
     return array
   end
 
-
 end
 
 array_data = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 
 data_tree = Tree.new(array_data)
 p data_tree.insert(11)
-p data_tree
+data_tree
