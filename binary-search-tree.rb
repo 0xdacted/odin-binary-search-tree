@@ -2,7 +2,7 @@ class Node
   include Comparable
   attr_accessor :left_child, :right_child, :data
 
-  def initialize(data, left_child = nil, right_child = nil)
+  def initialize(data)
     @data = data
     @left_child = left_child
     @right_child = right_child
@@ -11,24 +11,21 @@ class Node
 end
 
 class Tree
-  attr_accessor :root
+  attr_reader :root
 
   def initialize(array)
-    @root = root
     sorted = bubble_sort(array.uniq)
-    first = array.length - array.length
-    last = array.length - 1
-    build_tree(sorted, first, last)
-    
+    first = 0
+    last = sorted.length - 1
+    @root = build_tree(sorted, first, last)
   end
   
   def build_tree(array, first, last)
     if first > last 
       return nil
     end
-
-       mid = (first + last) / 2
-       p root = Node.new(array[mid])
+      mid = (first + last) / 2
+      root = Node.new(array[mid])
 
       root.left_child = build_tree(array, first, mid - 1)
       root.right_child = build_tree(array, mid + 1, last)
