@@ -1,46 +1,57 @@
 class Node
   include Comparable
+  def initialize(data)
+    @data = data
+    @left_child = nil
+    @right_child = nil
+  end
+
 end
 
 class Tree
 
-  def build_tree
+  def initialize(array)
+    @root = build_tree(array)
+
+  end
+  
+  def build_tree(array)
 
   end
 
-  def insert
+  def insert(value)
 
   end
 
-  def delete
+  def delete(value)
 
   end
 
-  def find
+  def find(value)
 
   end
 
-  def level_order
+  def level_order(block)
 
   end
 
-  def inorder
+  def inorder(block)
 
   end
 
-  def preorder
+  def preorder(block)
 
   end
 
-  def postorder
+  def postorder(block)
 
   end
 
-  def height
+  def height(node)
 
   end
 
-  def depth
+  def depth(node)
 
   end
 
