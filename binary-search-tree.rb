@@ -33,8 +33,25 @@ class Tree
       return root
   end
 
-  def insert(value)
-
+  def insert(root = @root, value)
+    if root == nil || root == value
+      return root
+    elsif 
+      value > root.data
+      if root.right_child == nil
+        root.right_child = value
+      else
+        root = root.right_child
+        insert(root, value)
+      end
+    elsif value < root.data
+      if root.left_child == nil
+        root.left_child = value
+      else
+      root = root.left_child
+      insert(root, value)
+      end
+    end
   end
 
   def delete(value)
@@ -90,8 +107,11 @@ class Tree
     return array
   end
 
+
 end
 
 array_data = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 
-p data_tree = Tree.new(array_data)
+data_tree = Tree.new(array_data)
+p data_tree.insert(11)
+p data_tree
