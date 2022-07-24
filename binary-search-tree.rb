@@ -39,14 +39,14 @@ class Tree
     elsif 
       value > root.data
       if root.right_child == nil
-        root.right_child = value
+        root.right_child = Node.new(value)
       else
         root = root.right_child
         insert(root, value)
       end
     elsif value < root.data
       if root.left_child == nil
-        root.left_child = value
+        root.left_child = Node.new(value)
       else
       root = root.left_child
       insert(root, value)
