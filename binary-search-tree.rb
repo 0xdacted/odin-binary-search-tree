@@ -131,9 +131,7 @@ class Tree
     result unless block_given?
   end
 
-  def height(value)
-    left_height = 0
-    right_height = 0
+  def height(value, left_height = 0, right_height = 0)
     node = find(value)
     if node.left != nil
       left_height += 1
@@ -152,7 +150,17 @@ class Tree
     left_height > right_height ? left_height : right_height
   end
 
-  def depth(node); end
+  def depth(value, node = @root, depth = 0)
+    if node.nil?
+      return
+    elsif node.data == value
+        depth
+    else
+      depth += 1
+      depth(value, node.left, depth)
+      depth(value, node.right, depth)
+    end
+  end
 
   def balanced?; end
 
@@ -172,4 +180,4 @@ end
 array_data = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 
 data_tree = Tree.new(array_data)
-p data_tree.height(324)
+p data_tree.depth(324)
