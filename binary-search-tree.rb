@@ -170,7 +170,8 @@ class Tree
 
   def rebalance
     rebalanced = self.inorder
-    rebalanced_tree = Tree.new(rebalanced)
+    rebalanced_tree = build_tree(rebalanced, 0, rebalanced.length - 1)
+    @root = rebalanced_tree
   end
 
   def bubble_sort(array)
@@ -190,5 +191,7 @@ data_tree = Tree.new(array_data)
 data_tree.insert(124)
 data_tree.insert(432)
 data_tree.insert(323)
+data_tree.balanced?
+data_tree.rebalance
 data_tree.balanced?
 
