@@ -15,6 +15,7 @@ class Tree
   def initialize(array)
     sorted = bubble_sort(array.uniq)
     @root = build_tree(sorted, 0, sorted.length - 1)
+    @@preorder_result = []
   end
 
   def build_tree(array, first, last)
@@ -92,7 +93,6 @@ class Tree
         node = queue.shift
         block_given? ? yield(node) : passed_values.push(node.data)
         children = [node.left, node.right].compact
-
         children.each do |child|
           queue.push(child)
         end
@@ -100,9 +100,19 @@ class Tree
       passed_values unless block_given?
   end
 
+  
   def inorder(block); end
 
-  def preorder(block); end
+  def preorder(node = @root, result = [])
+    if node == nil
+      return
+    end
+    block_given? ? yield(node) : result.push(node.data)
+    
+    preorder(node.left, result) 
+    preorder(node.right, result) 
+    result unless block_given?
+  end
 
   def postorder(block); end
 
@@ -128,6 +138,7 @@ end
 array_data = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 
 data_tree = Tree.new(array_data)
-p data_tree.level_order 
+data_tree.level_order 
+p data_tree.preorder
 
 
