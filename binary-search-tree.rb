@@ -29,14 +29,14 @@ class Tree
     root
   end
 
-  def insert(root = @root, value)
-    if root == value || root.nil?
-      root
-    elsif value > root.data
-      root.right ? insert(root.right, value) : root.right = Node.new(value)
+  def insert(node = @root, value)
+    if node == value || node.nil?
+      node
+    elsif value > node.data
+      node.right ? insert(node.right, value) : node.right = Node.new(value)
 
-    elsif value < root.data
-      root.left ? insert(root.left, value) : root.left = Node.new(value)
+    elsif value < node.data
+      node.left ? insert(node.left, value) : node.left = Node.new(value)
     end
   end
 
@@ -73,19 +73,32 @@ class Tree
   end
 
   def find(node = @root, value)
-  if node.nil? || node.data == value
-    node
+    if node.nil? || node.data == value
+      node
 
-  elsif value > node.data
-    find(node.right, value)
+    elsif value > node.data 
+      find(node.right, value)
 
-  elsif value < node.data
-    find(node.left, value)
+    elsif value < node.data
+      find(node.left, value)
+    end
   end
-  
-  end
 
-  def level_order(block); end
+  def level_order(node = @root)
+      queue = []
+      passed_values = []
+      queue.push(node)
+      while(queue.length != 0)
+        node = queue.shift
+        block_given? ? yield(node) : passed_values.push(node.data)
+        children = [node.left, node.right].compact
+
+        children.each do |child|
+          queue.push(child)
+        end
+      end
+      passed_values unless block_given?
+  end
 
   def inorder(block); end
 
@@ -115,6 +128,6 @@ end
 array_data = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 
 data_tree = Tree.new(array_data)
-p data_tree.find(4)
+p data_tree.level_order 
 
 
