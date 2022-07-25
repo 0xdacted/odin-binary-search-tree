@@ -155,10 +155,12 @@ class Tree
       return
     elsif node.data == value
         depth
-    else
+    elsif value > node.data
+      depth += 1
+      depth(value, node.right, depth)
+    elsif value < node.data
       depth += 1
       depth(value, node.left, depth)
-      depth(value, node.right, depth)
     end
   end
 
@@ -180,4 +182,4 @@ end
 array_data = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 
 data_tree = Tree.new(array_data)
-p data_tree.depth(324)
+p data_tree.depth(4)
