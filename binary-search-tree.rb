@@ -15,7 +15,6 @@ class Tree
   def initialize(array)
     sorted = bubble_sort(array.uniq)
     @root = build_tree(sorted, 0, sorted.length - 1)
-    @@preorder_result = []
   end
 
   def build_tree(array, first, last)
@@ -53,6 +52,9 @@ class Tree
           node.right = node.right.right
         elsif node.right.right.nil? && !node.right.left.nil?
           node.right = node.right.left
+        elsif !node.right.right.nil? && !node.right.left.nil?
+          new_node = inorder(node.right)
+          p node.right = new_node[(new_node.length + 1) / 2]
         end
       else
         delete(node.right, value)
@@ -66,6 +68,9 @@ class Tree
           node.left = node.left.right
         elsif node.left.right.nil? && !node.left.left.nil?
           node.left = node.left.left
+        elsif !node.left.right.nil? && !node.left.left.nil?
+          new_node = inorder(node.left)
+          p node.left = new_node[(new_node.length + 1) / 2]
         end
       else
         delete(node.left, value)
@@ -148,7 +153,6 @@ end
 array_data = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 
 data_tree = Tree.new(array_data)
-p data_tree.level_order
-p data_tree.inorder
-p data_tree.preorder
-p data_tree.postorder
+data_tree
+data_tree.delete(67)
+data_tree
