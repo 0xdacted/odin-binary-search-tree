@@ -175,7 +175,10 @@ class Tree
     end
   end
 
-  def rebalance; end
+  def rebalance
+    rebalanced = self.inorder
+    build_tree(rebalanced, 0, rebalanced.length - 1)
+  end
 
   def bubble_sort(array)
     for i in 0...array.length
@@ -191,4 +194,4 @@ end
 array_data = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 
 data_tree = Tree.new(array_data)
-data_tree.balanced?
+data_tree.rebalance
