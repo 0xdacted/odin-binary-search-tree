@@ -101,7 +101,15 @@ class Tree
   end
 
   
-  def inorder(block); end
+  def inorder(node = @root, result = [])
+    if node == nil
+      return
+    end
+      inorder(node.left, result)
+      block_given? ? yield(node) : result.push(node.data)
+      inorder(node.right, result)
+      result unless block_given?
+  end
 
   def preorder(node = @root, result = [])
     if node == nil
@@ -139,6 +147,6 @@ array_data = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 
 data_tree = Tree.new(array_data)
 data_tree.level_order 
-p data_tree.preorder
+p data_tree.inorder
 
 
