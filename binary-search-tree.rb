@@ -194,4 +194,7 @@ data_tree.insert(323)
 data_tree.balanced?
 data_tree.rebalance
 data_tree.balanced?
-
+p data_tree.level_order
+p data_tree.preorder
+p data_tree.postorder
+p data_tree.inorder
