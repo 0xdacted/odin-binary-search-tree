@@ -33,14 +33,14 @@ class Tree
     if node == value || node.nil?
       node
     elsif value > node.data
-      node.right ? insert(node.right, value) : node.right = Node.new(value)
+      node.right.nil? ? node.right = Node.new(value) : insert(node.right, value) 
 
     elsif value < node.data
-      node.left ? insert(node.left, value) : node.left = Node.new(value)
+      node.left.nil? ? node.left = Node.new(value) : insert(node.left, value) 
     end
   end
 
-  def delete(node = @root, value)
+  def delete(value, node = @root)
     if node.nil? || node == value
       node
 
@@ -78,15 +78,15 @@ class Tree
     end
   end
 
-  def find(node = @root, value)
+  def find(value, node = @root)
     if node.nil? || node.data == value
       node
 
     elsif value > node.data
-      find(node.right, value)
+      find(value, node.right)
 
     elsif value < node.data
-      find(node.left, value)
+      find(value, node.left)
     end
   end
 
@@ -131,23 +131,16 @@ class Tree
     result unless block_given?
   end
 
-  def height(value, left_height = 0, right_height = 0)
-    node = find(value)
-    if node.left != nil
-      left_height += 1
-      until node.left == nil
-        left_height += 1
-        node = node.left
-      end
+  def height(node = @root, count = 0)
+    if node.nil?
+      count -= 1
+      return count
+    else
+      count += 1
+      left = height(node.left, count)
+      right = height(node.right, count)
     end
-    if node.right != nil
-      right_height += 1
-      until node.right == nil
-        right_height += 1
-        node = node.right
-      end
-    end
-    left_height > right_height ? left_height : right_height
+    left > right ? left : right
   end
 
   def depth(value, node = @root, depth = 0)
@@ -164,9 +157,9 @@ class Tree
     end
   end
 
-  def balanced?(node = @root, left_height = 0, right_height = 0)
-    left_height = height(node.left.data) unless node.left.nil?
-    right_height = height(node.right.data) unless node.right.nil?
+  def balanced?(node = @root)
+    left_height = height(node.left) unless node.left.nil?
+    right_height = height(node.right) unless node.right.nil?
     height_difference = (left_height - right_height).abs
     if height_difference > 1
       p "This tree is unbalanced, one side is #{height_difference} nodes taller than the other"
@@ -191,7 +184,11 @@ class Tree
   end
 end
 
-array_data = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
+array_data = (Array.new(15) { rand(1..100) })
 
 data_tree = Tree.new(array_data)
-p data_tree.rebalance
+data_tree.insert(124)
+data_tree.insert(432)
+data_tree.insert(323)
+data_tree.balanced?
+
