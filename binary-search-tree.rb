@@ -53,8 +53,8 @@ class Tree
         elsif node.right.right.nil? && !node.right.left.nil?
           node.right = node.right.left
         elsif !node.right.right.nil? && !node.right.left.nil?
-          new_node = inorder(node.right)
-          p node.right = new_node[(new_node.length + 1) / 2]
+          node_options = inorder(node.right)
+          node.right = node_options[(node_options.length + 1) / 2]
         end
       else
         delete(node.right, value)
@@ -69,8 +69,8 @@ class Tree
         elsif node.left.right.nil? && !node.left.left.nil?
           node.left = node.left.left
         elsif !node.left.right.nil? && !node.left.left.nil?
-          new_node = inorder(node.left)
-          p node.left = new_node[(new_node.length + 1) / 2]
+          node_options = inorder(node.left)
+          node.left = node_options[(node_options.length + 1) / 2]
         end
       else
         delete(node.left, value)
@@ -131,7 +131,26 @@ class Tree
     result unless block_given?
   end
 
-  def height(node); end
+  def height(value)
+    left_height = 0
+    right_height = 0
+    node = find(value)
+    if node.left != nil
+      left_height += 1
+      until node.left == nil
+        left_height += 1
+        node = node.left
+      end
+    end
+    if node.right != nil
+      right_height += 1
+      until node.right == nil
+        right_height += 1
+        node = node.right
+      end
+    end
+    left_height > right_height ? left_height : right_height
+  end
 
   def depth(node); end
 
@@ -153,6 +172,4 @@ end
 array_data = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 
 data_tree = Tree.new(array_data)
-data_tree
-data_tree.delete(67)
-data_tree
+p data_tree.height(324)
