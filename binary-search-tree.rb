@@ -72,7 +72,18 @@ class Tree
     end
   end
 
-  def find(value); end
+  def find(node = @root, value)
+  if node.nil? || node.data == value
+    node
+
+  elsif value > node.data
+    find(node.right, value)
+
+  elsif value < node.data
+    find(node.left, value)
+  end
+  
+  end
 
   def level_order(block); end
 
@@ -104,6 +115,6 @@ end
 array_data = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 
 data_tree = Tree.new(array_data)
-p data_tree
+p data_tree.find(4)
 
 
