@@ -164,7 +164,16 @@ class Tree
     end
   end
 
-  def balanced?; end
+  def balanced?(node = @root, left_height = 0, right_height = 0)
+    left_height = height(node.left.data) unless node.left.nil?
+    right_height = height(node.right.data) unless node.right.nil?
+    height_difference = (left_height - right_height).abs
+    if height_difference > 1
+      p "This tree is unbalanced, one side is #{height_difference} nodes taller than the other"
+    else
+      p "This tree is balanced, one side is #{height_difference} nodes taller than the other"
+    end
+  end
 
   def rebalance; end
 
@@ -182,4 +191,4 @@ end
 array_data = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 
 data_tree = Tree.new(array_data)
-p data_tree.depth(4)
+data_tree.balanced?
