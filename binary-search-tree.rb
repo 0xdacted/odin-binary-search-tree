@@ -77,7 +77,7 @@ class Tree
     if node.nil? || node.data == value
       node
 
-    elsif value > node.data 
+    elsif value > node.data
       find(node.right, value)
 
     elsif value < node.data
@@ -85,44 +85,46 @@ class Tree
     end
   end
 
-  def level_order(node = @root)
-      queue = []
-      passed_values = []
-      queue.push(node)
-      while(queue.length != 0)
-        node = queue.shift
-        block_given? ? yield(node) : passed_values.push(node.data)
-        children = [node.left, node.right].compact
-        children.each do |child|
-          queue.push(child)
-        end
-      end
-      passed_values unless block_given?
-  end
-
-  
-  def inorder(node = @root, result = [])
-    if node == nil
-      return
-    end
-      inorder(node.left, result)
+  def level_order(node = @root, queue = [], result = [])
+    queue.push(node)
+    while queue.length != 0
+      node = queue.shift
       block_given? ? yield(node) : result.push(node.data)
-      inorder(node.right, result)
-      result unless block_given?
-  end
-
-  def preorder(node = @root, result = [])
-    if node == nil
-      return
+      children = [node.left, node.right].compact
+      children.each do |child|
+        queue.push(child)
+      end
     end
-    block_given? ? yield(node) : result.push(node.data)
-    
-    preorder(node.left, result) 
-    preorder(node.right, result) 
     result unless block_given?
   end
 
-  def postorder(block); end
+  def inorder(node = @root, result = [])
+    return if node.nil?
+
+    inorder(node.left, result)
+    block_given? ? yield(node) : result.push(node.data)
+    inorder(node.right, result)
+    result unless block_given?
+  end
+
+  def preorder(node = @root, result = [])
+    return if node.nil?
+
+    block_given? ? yield(node) : result.push(node.data)
+
+    preorder(node.left, result)
+    preorder(node.right, result)
+    result unless block_given?
+  end
+
+  def postorder(node = @root, result = [])
+    return if node.nil?
+
+    postorder(node.left, result)
+    postorder(node.right, result)
+    block_given? ? yield(node) : result.push(node.data)
+    result unless block_given?
+  end
 
   def height(node); end
 
@@ -146,7 +148,7 @@ end
 array_data = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 
 data_tree = Tree.new(array_data)
-data_tree.level_order 
+p data_tree.level_order
 p data_tree.inorder
-
-
+p data_tree.preorder
+p data_tree.postorder
